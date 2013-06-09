@@ -20,4 +20,23 @@ object Exercise {
     }
 
   }
+
+  def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = {
+    @tailrec
+    def go(as: Array[A], gt: (A, A) => Boolean, i: Int): Boolean = {
+      i match {
+        case x if (x >= as.length - 1) => true
+        case _ => gt(as(i), as(i + 1)) && go(as, gt, i + 1)
+      }
+    }
+    go(as, gt, 0)
+  }
+
+  def partial1[A, B, C](a: A, f: (A, B) => C): B => C = f(a, _)
+
+  def curry[A, B, C](f: (A, B) => C): A => (B => C) = (a) => f(a, _)
+
+  def uncurry[A, B, C](f: A => B => C): (A, B) => C = f(_)(_)
+
+  def compose[A, B, C](f: B => C, g: A => B): A => C = (a) => f(g(a))
 }
